@@ -1,0 +1,11 @@
+
+docker run --rm -it --ipc=host --runtime=nvidia --gpus all -v "$(pwd)":/w -w /w ultralytics/yolov5:latest yolo train model=yolov5s.pt data=pollen_class_28052024.yaml project=/w/runs single_cls=True batch=-1 epochs=800
+
+
+docker run --rm -it --ipc=host --runtime=nvidia --gpus all -v "$(pwd)":/w -w /w ultralytics/yolov5:latest yolo train model=yolov5s.yaml data=pollen_class_28052024.yaml project=/w/runs single_cls=True
+
+
+## Working
+docker run --rm -it --ipc=host --runtime=nvidia --gpus all -v "$(pwd)":/w -w /w ultralytics/yolov5:latest yolo train model=yolov5s.pt data=pollen_class_28052024.yaml project=$(pwd)/runs single_cls=True batch=-1 epochs=800
+
+same folder has results and training data

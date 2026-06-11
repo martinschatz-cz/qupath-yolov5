@@ -1,0 +1,26 @@
+# training/dockerfile
+# GPU-enabled container for Ultralytics YOLO training
+# Use this Dockerfile for building the training image.
+# The official ultralytics/yolov5 image is more of a runtime/inference image,
+# so keeping a custom training image gives you control over CUDA and training deps.
+FROM pytorch/pytorch:2.2.0-cuda12.1-cudnn8-runtime
+
+# Install runtime dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    ffmpeg \
+    libgl1 \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /workspace
+
+# Install Ultralytics and common training dependencies
+RUN python -m pip install --upgrade pip setuptools wheel && \
+    pip install --no-cache-dir ultralytics opencv-python-headless Pillow
+
+# Copy your training project into the image (optional)
+# COPY . /workspace
+
+# Default command is an interactive shell so you can launch training manually
+CMD ["bash"]
