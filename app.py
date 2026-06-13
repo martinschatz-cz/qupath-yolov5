@@ -9,13 +9,17 @@ from PIL import Image
 os.environ.setdefault("YOLO_CONFIG_DIR", "/tmp/Ultralytics")
 
 app = FastAPI()
+MODEL_PATH = "yolov5-best.pt"
 
 # Load your custom YOLOv5 model (make sure this weight file is in your Docker build)
-model = torch.hub.load('ultralytics/yolov5', 'custom', path='yolov5-best.pt', force_reload=False, trust_repo=True)
+model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_PATH, force_reload=False, trust_repo=True)
 
 @app.get("/health")
 def health_check():
-    return {"status": "online"}
+    return {
+        "status": "online",
+        "model_name": MODEL_PATH
+    }
 
 @app.post("/predict")
 async def predict(
